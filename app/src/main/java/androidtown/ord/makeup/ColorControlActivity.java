@@ -17,12 +17,12 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.Objects;
 
 public class ColorControlActivity extends AppCompatActivity {
 
@@ -41,7 +41,11 @@ public class ColorControlActivity extends AppCompatActivity {
             result -> {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                     Uri selectedImage = result.getData().getData();
-                    handleImageResult(selectedImage);
+                    if (selectedImage != null) {
+                        handleImageResult(selectedImage);
+                    } else {
+                        Toast.makeText(this, "Image selection failed", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(this, "Image selection canceled", Toast.LENGTH_SHORT).show();
                 }
@@ -151,8 +155,12 @@ public class ColorControlActivity extends AppCompatActivity {
             ContentResolver resolver = getContentResolver();
             InputStream inputStream = resolver.openInputStream(selectedImage);
 
+            if (inputStream == null) {
+                throw new NullPointerException("InputStream is null");
+            }
+
             String fileName = getFileName(selectedImage);
-            File tempFile = new File(getCacheDir(), fileName);
+            File tempFile = new File(getCacheDir(), Objects.requireNonNull(fileName));
             FileOutputStream outputStream = new FileOutputStream(tempFile);
 
             byte[] buffer = new byte[1024];
@@ -167,7 +175,7 @@ public class ColorControlActivity extends AppCompatActivity {
             Log.d(TAG, "File saved: " + uploadedFile.getAbsolutePath());
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "Error processing the image", e);
             Toast.makeText(this, "Failed to process the image", Toast.LENGTH_SHORT).show();
         }
     }
@@ -194,18 +202,23 @@ public class ColorControlActivity extends AppCompatActivity {
 
     private String getFileName(Uri uri) {
         String result = null;
-        if (uri.getScheme().equals("content")) {
+        if ("content".equals(uri.getScheme())) {
             try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
                 if (cursor != null && cursor.moveToFirst()) {
-                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                    int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                    if (nameIndex >= 0) {
+                        result = cursor.getString(nameIndex);
+                    }
                 }
             }
         }
         if (result == null) {
             result = uri.getPath();
-            int cut = result.lastIndexOf('/');
-            if (cut != -1) {
-                result = result.substring(cut + 1);
+            if (result != null) {
+                int cut = result.lastIndexOf('/');
+                if (cut != -1) {
+                    result = result.substring(cut + 1);
+                }
             }
         }
         return result;
