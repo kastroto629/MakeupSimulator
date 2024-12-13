@@ -4,7 +4,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
@@ -16,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,12 +26,27 @@ import java.io.InputStream;
 
 public class ColorControlActivity extends AppCompatActivity {
 
-    private String selectedFeature = ""; // "lip" or "hair"
-    private int colorR = 0, colorG = 0, colorB = 0;
+    private String selectedFeature = ""; // lip or hair
+    private int colorValue = 0;
     private int brightnessValue = 0;
     private static final String TAG = "ColorControlActivity";
 
     private File uploadedFile;
+
+    private ImageView uploadedImageView;
+
+    // ActivityResultLauncher to handle image picking result
+    private final ActivityResultLauncher<Intent> imagePickerLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    Uri selectedImage = result.getData().getData();
+                    handleImageResult(selectedImage);
+                } else {
+                    Toast.makeText(this, "Image selection canceled", Toast.LENGTH_SHORT).show();
+                }
+            }
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +54,7 @@ public class ColorControlActivity extends AppCompatActivity {
         setContentView(R.layout.activity_color_control);
 
         // View 초기화
-        ImageView uploadedImageView = findViewById(R.id.uploadedImageView);
+        uploadedImageView = findViewById(R.id.uploadedImageView);
         Button btnUploadImage = findViewById(R.id.btnUploadImage);
         Button btnLipColor = findViewById(R.id.btnLipColor);
         Button btnHairColor = findViewById(R.id.btnHairColor);
@@ -55,7 +71,7 @@ public class ColorControlActivity extends AppCompatActivity {
         btnUploadImage.setOnClickListener(view -> {
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");
-            startActivityForResult(intent, 1); // 결과를 받아오기 위해 코드 1 사용
+            imagePickerLauncher.launch(intent);
         });
 
         // Lip Color 버튼 동작
@@ -76,11 +92,9 @@ public class ColorControlActivity extends AppCompatActivity {
         seekBarColor.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                colorR = (progress & 0xFF0000) >> 16; // Red
-                colorG = (progress & 0x00FF00) >> 8;  // Green
-                colorB = (progress & 0x0000FF);       // Blue
-                Log.d(TAG, "Color SeekBar progress: R=" + colorR + ", G=" + colorG + ", B=" + colorB);
-                sendAdjustColorRequest(uploadedImageView);
+                colorValue = progress;
+                Log.d(TAG, "Color SeekBar progress: " + progress);
+                sendAdjustColorRequest();
             }
 
             @Override
@@ -100,7 +114,7 @@ public class ColorControlActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 brightnessValue = progress;
                 Log.d(TAG, "Brightness SeekBar progress: " + progress);
-                sendAdjustColorRequest(uploadedImageView);
+                sendAdjustColorRequest();
             }
 
             @Override
@@ -128,53 +142,44 @@ public class ColorControlActivity extends AppCompatActivity {
         });
     }
 
-    // 이미지 업로드 처리
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    private void handleImageResult(Uri selectedImage) {
+        uploadedImageView.setImageURI(selectedImage); // 선택된 이미지 표시
+        Log.d(TAG, "Image uploaded successfully");
 
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
-            Uri selectedImage = data.getData();
-            ImageView uploadedImageView = findViewById(R.id.uploadedImageView);
-            uploadedImageView.setImageURI(selectedImage); // 선택된 이미지 표시
-            Log.d(TAG, "Image uploaded successfully");
+        // 파일 복사 및 저장
+        try {
+            ContentResolver resolver = getContentResolver();
+            InputStream inputStream = resolver.openInputStream(selectedImage);
 
-            // 파일 복사 및 저장
-            try {
-                ContentResolver resolver = getContentResolver();
-                InputStream inputStream = resolver.openInputStream(selectedImage);
+            String fileName = getFileName(selectedImage);
+            File tempFile = new File(getCacheDir(), fileName);
+            FileOutputStream outputStream = new FileOutputStream(tempFile);
 
-                String fileName = getFileName(selectedImage);
-                File tempFile = new File(getCacheDir(), fileName);
-                FileOutputStream outputStream = new FileOutputStream(tempFile);
-
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-                outputStream.close();
-                inputStream.close();
-
-                uploadedFile = tempFile; // 저장된 파일 경로 저장
-                Log.d(TAG, "File saved: " + uploadedFile.getAbsolutePath());
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(this, "Failed to process the image", Toast.LENGTH_SHORT).show();
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
             }
+            outputStream.close();
+            inputStream.close();
+
+            uploadedFile = tempFile; // 저장된 파일 경로 저장
+            Log.d(TAG, "File saved: " + uploadedFile.getAbsolutePath());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Failed to process the image", Toast.LENGTH_SHORT).show();
         }
     }
 
-    // 색상 및 밝기 조절 API 요청
-    private void sendAdjustColorRequest(ImageView uploadedImageView) {
+    private void sendAdjustColorRequest() {
         if (uploadedFile == null) {
             Toast.makeText(this, "Please upload an image first", Toast.LENGTH_SHORT).show();
             return;
         }
 
         new Thread(() -> {
-            Bitmap adjustedImage = ApiClient.adjustColor(selectedFeature, brightnessValue, Color.rgb(colorR, colorG, colorB), uploadedFile);
+            Bitmap adjustedImage = ApiClient.adjustColor(selectedFeature, brightnessValue, colorValue, uploadedFile);
             runOnUiThread(() -> {
                 if (adjustedImage != null) {
                     uploadedImageView.setImageBitmap(adjustedImage);
