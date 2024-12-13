@@ -1,0 +1,29 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_horizontal"
+    android:layout_marginTop="20dp">
+
+    <Button
+        android:id="@+id/btnMakeupTransfer"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_weight="1"
+        android:text="Makeup Transfer" />
+
+    <Button
+        android:id="@+id/btnColorControl"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_weight="1"
+        android:text="Color Control" />
+
+    <Button
+        android:id="@+id/btnEnhanceImage"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_weight="1"
+        android:text="Enhance Image" />
+</LinearLayout>
