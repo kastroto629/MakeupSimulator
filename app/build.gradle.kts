@@ -1,11 +1,11 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt") // KAPT 플러그인 추가
 }
 
 android {
-
-    namespace = "androidtown.ord.makeup" // 패키지 이름
+    namespace = "androidtown.ord.makeup"
     compileSdk = 33
 
     defaultConfig {
@@ -23,25 +23,39 @@ android {
         }
     }
 
-    // Lint 설정
+    buildFeatures {
+        viewBinding = true
+    }
+
     lint {
-        abortOnError = false // 빌드 실패 방지
+        abortOnError = false
     }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-}
 
-tasks.withType<JavaCompile> {
-    options.compilerArgs.add("-Xlint:deprecation") // Deprecated API 경고 표시
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
+    // AndroidX Libraries
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.9.0")
+
+    // Activity and Lifecycle Components
+    implementation("androidx.activity:activity:1.6.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+
+    // Networking (OkHttp)
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
-    implementation("com.google.android.material:material:1.9.0")
+
+    // Image Processing (Optional)
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    kapt("com.github.bumptech.glide:compiler:4.15.1") // Glide Compiler for Annotation Processing
 }

@@ -40,10 +40,17 @@
             android:layout_marginEnd="16dp" />
 
         <Button
-            android:id="@+id/btnHairColor"
+            android:id="@+id/btnReset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hair Color" />
+            android:text="Reset" />
+
+        <Button
+            android:id="@+id/btnEyeColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Eye Color"
+            android:layout_marginStart="16dp" />
     </LinearLayout>
 
     <!-- 색상 조정 슬라이더 -->
@@ -58,11 +65,35 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Color"
+            android:text="Red"
             android:layout_gravity="center_horizontal" />
 
         <SeekBar
-            android:id="@+id/seekBarColor"
+            android:id="@+id/seekBarR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Green"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp" />
+
+        <SeekBar
+            android:id="@+id/seekBarG"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Blue"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp" />
+
+        <SeekBar
+            android:id="@+id/seekBarB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
