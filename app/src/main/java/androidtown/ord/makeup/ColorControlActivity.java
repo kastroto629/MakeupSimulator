@@ -61,12 +61,14 @@ public class ColorControlActivity extends AppCompatActivity {
         Button btnLipColor = findViewById(R.id.btnLipColor);
         Button btnEyeColor = findViewById(R.id.btnEyeColor);
         Button btnReset = findViewById(R.id.btnReset);
-        Button btnDown = findViewById(R.id.btnDown); // 여기에서 초기화
+        Button btnDown = findViewById(R.id.btnDown);
+        Button btnHome = findViewById(R.id.btnHome);
         SeekBar seekBarR = findViewById(R.id.seekBarR);
         SeekBar seekBarG = findViewById(R.id.seekBarG);
         SeekBar seekBarB = findViewById(R.id.seekBarB);
         SeekBar seekBarBrightness = findViewById(R.id.seekBarBrightness);
         LinearLayout sliderLayout = findViewById(R.id.sliderLayout);
+
 
         // Initially hide the slider layout
         sliderLayout.setVisibility(View.GONE);
@@ -99,6 +101,15 @@ public class ColorControlActivity extends AppCompatActivity {
             }
         });
 
+        btnHome.setOnClickListener(v -> {
+            // MainActivity로 이동
+            Intent intent = new Intent(ColorControlActivity.this, MainActivity.class);
+            // 이전 액티비티 스택을 모두 비우고 새로 시작 (선택사항)
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+            finish(); // 현재 액티비티 종료
+        });
+
         btnReset.setOnClickListener(v -> resetImage());
 
         seekBarR.setOnSeekBarChangeListener(createSeekBarListener(value -> redValue = value));
@@ -112,17 +123,23 @@ public class ColorControlActivity extends AppCompatActivity {
         return new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                listener.onUpdate(progress);
-                sendAdjustColorRequest();
+                if (fromUser) { // 사용자가 직접 SeekBar를 조작했을 때만 처리
+                    listener.onUpdate(progress);
+                    sendAdjustColorRequest();
+                }
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // SeekBar 조작이 끝난 후 최종값 반영
+                sendAdjustColorRequest();
+            }
         };
     }
+
 
     private void resetImage() {
         if (sessionId == null) {
@@ -136,8 +153,25 @@ public class ColorControlActivity extends AppCompatActivity {
             runOnUiThread(() -> {
                 if (resetImage != null) {
                     uploadedImageView.setImageBitmap(resetImage);
-                    redValue = greenValue = blueValue = brightnessValue = 0;
-                    Toast.makeText(this, "Image reset to original!", Toast.LENGTH_SHORT).show();
+
+                    // SeekBar 값 초기화
+                    SeekBar seekBarR = findViewById(R.id.seekBarR);
+                    SeekBar seekBarG = findViewById(R.id.seekBarG);
+                    SeekBar seekBarB = findViewById(R.id.seekBarB);
+                    SeekBar seekBarBrightness = findViewById(R.id.seekBarBrightness);
+
+                    seekBarR.setProgress(0);
+                    seekBarG.setProgress(0);
+                    seekBarB.setProgress(0);
+                    seekBarBrightness.setProgress(0);
+
+                    // 변수 값 초기화
+                    redValue = 0;
+                    greenValue = 0;
+                    blueValue = 0;
+                    brightnessValue = 0;
+
+                    Toast.makeText(this, "Image and settings reset to original!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, "Failed to reset image", Toast.LENGTH_SHORT).show();
                 }
@@ -145,23 +179,35 @@ public class ColorControlActivity extends AppCompatActivity {
         }).start();
     }
 
+
+    private boolean isRequestInProgress = false; // 중복 요청 방지 플래그
+
     private void sendAdjustColorRequest() {
         if (sessionId == null) {
             Toast.makeText(this, "Please upload an image first", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        // 요청 중이면 실행하지 않음
+        if (isRequestInProgress) return;
+
+        isRequestInProgress = true; // 요청 시작
+
         new Thread(() -> {
+            // 서버로부터 조정된 이미지 가져오기
             Bitmap adjustedImage = ApiClient.adjustColor(sessionId, selectedFeature, brightnessValue, redValue, greenValue, blueValue);
+
             runOnUiThread(() -> {
                 if (adjustedImage != null) {
-                    uploadedImageView.setImageBitmap(adjustedImage);
+                    uploadedImageView.setImageBitmap(adjustedImage); // 이미지 업데이트
                 } else {
                     Toast.makeText(this, "Failed to adjust color", Toast.LENGTH_SHORT).show();
                 }
+                isRequestInProgress = false; // 요청 완료
             });
         }).start();
     }
+
 
     private void uploadImageToServer(Uri imageUri) {
         try {

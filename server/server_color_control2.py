@@ -38,10 +38,14 @@ async def upload_image(file: UploadFile = File(...)):
 async def adjust_color(session_id: str = Form(...), feature: str = Form(...),
                        brightness: int = Form(...), color_r: int = Form(...),
                        color_g: int = Form(...), color_b: int = Form(...)):
-    if session_id not in session_images:
+    if session_id not in session_images_original:
         return {"error": "Invalid session ID"}
 
-    image = session_images[session_id]
+    # 원본 이미지에서 시작
+    original_image = session_images_original[session_id]
+    image = original_image.copy()
+
+    # 얼굴 검출 및 랜드마크 추출
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     faces = detector(gray)
     if not faces:
@@ -50,20 +54,29 @@ async def adjust_color(session_id: str = Form(...), feature: str = Form(...),
     landmarks = predictor(gray, faces[0])
     points = [(landmarks.part(i).x, landmarks.part(i).y) for i in range(68)]
 
-    # Select the region
+    # 영역 선택: 입술 또는 눈
     region_points = list(range(48, 61)) if feature == "lip" else list(range(36, 48))
     mask = np.zeros_like(image, dtype=np.uint8)
     cv2.fillPoly(mask, [np.array([points[i] for i in region_points], np.int32)], (255, 255, 255))
 
-    # Apply color and brightness
-    region = cv2.bitwise_and(image, mask)
-    color_layer = np.full_like(image, (color_b, color_g, color_r), dtype=np.uint8)
-    adjusted = cv2.addWeighted(region, 0.7, color_layer, 0.3, 0)
-    combined = cv2.add(adjusted, cv2.bitwise_and(image, cv2.bitwise_not(mask)))
+    if brightness == 0 and color_r == 0 and color_g == 0 and color_b == 0:
+        # 모든 값이 0이면 원본 이미지의 해당 영역만 유지
+        combined = cv2.bitwise_and(original_image, mask) + cv2.bitwise_and(image, cv2.bitwise_not(mask))
+    else:
+        # 색상 레이어 생성 및 적용
+        color_layer = np.full_like(image, (color_b, color_g, color_r), dtype=np.uint8)
 
-    session_images[session_id] = combined
+        # 밝기 및 색상 조정
+        adjusted = cv2.addWeighted(image, 1 - (brightness / 100), color_layer, (brightness / 100), 0)
+
+        # 선택된 영역에만 조정된 색상 반영
+        combined = cv2.bitwise_and(adjusted, mask) + cv2.bitwise_and(image, cv2.bitwise_not(mask))
+
+    # 클라이언트에 이미지 반환
     _, buffer = cv2.imencode(".jpg", combined)
     return StreamingResponse(BytesIO(buffer.tobytes()), media_type="image/jpeg")
+
+
 
 @app.post("/reset/")
 async def reset_image(session_id: str = Form(...)):
