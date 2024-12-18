@@ -21,6 +21,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Environment;
+import java.io.FileOutputStream;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+
 public class ColorControlActivity extends AppCompatActivity {
 
     private static final String TAG = "ColorControlActivity";
@@ -29,6 +37,8 @@ public class ColorControlActivity extends AppCompatActivity {
     private String sessionId;
     private String selectedFeature = "lip";
     private int redValue = 0, greenValue = 0, blueValue = 0, brightnessValue = 0;
+
+
 
     private final ActivityResultLauncher<Intent> imagePickerLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -51,6 +61,7 @@ public class ColorControlActivity extends AppCompatActivity {
         Button btnLipColor = findViewById(R.id.btnLipColor);
         Button btnEyeColor = findViewById(R.id.btnEyeColor);
         Button btnReset = findViewById(R.id.btnReset);
+        Button btnDown = findViewById(R.id.btnDown); // 여기에서 초기화
         SeekBar seekBarR = findViewById(R.id.seekBarR);
         SeekBar seekBarG = findViewById(R.id.seekBarG);
         SeekBar seekBarB = findViewById(R.id.seekBarB);
@@ -77,6 +88,17 @@ public class ColorControlActivity extends AppCompatActivity {
             sliderLayout.setVisibility(View.VISIBLE);
         });
 
+        btnDown.setOnClickListener(v -> {
+            // Retrieve the bitmap from ImageView
+            BitmapDrawable drawable = (BitmapDrawable) uploadedImageView.getDrawable();
+            if (drawable != null) {
+                Bitmap bitmap = drawable.getBitmap();
+                saveBitmapToGallery(bitmap);
+            } else {
+                Toast.makeText(this, "No image to download", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         btnReset.setOnClickListener(v -> resetImage());
 
         seekBarR.setOnSeekBarChangeListener(createSeekBarListener(value -> redValue = value));
@@ -84,6 +106,7 @@ public class ColorControlActivity extends AppCompatActivity {
         seekBarB.setOnSeekBarChangeListener(createSeekBarListener(value -> blueValue = value));
         seekBarBrightness.setOnSeekBarChangeListener(createSeekBarListener(value -> brightnessValue = value));
     }
+
 
     private SeekBar.OnSeekBarChangeListener createSeekBarListener(ValueUpdateListener listener) {
         return new SeekBar.OnSeekBarChangeListener() {
@@ -170,6 +193,25 @@ public class ColorControlActivity extends AppCompatActivity {
         }
         return tempFile;
     }
+
+
+    private void saveBitmapToGallery(Bitmap bitmap) {
+        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String filename = "MakeupImage_" + timestamp + ".jpg";
+
+        // Path to external storage
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File imageFile = new File(storageDir, filename);
+
+        try (FileOutputStream out = new FileOutputStream(imageFile)) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out); // Save bitmap as JPEG
+            Toast.makeText(this, "Image saved to: " + imageFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Failed to save image", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     private interface ValueUpdateListener {
         void onUpdate(int value);

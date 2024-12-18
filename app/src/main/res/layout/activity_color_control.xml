@@ -125,9 +125,9 @@
             android:text="Home" />
 
         <Button
-            android:id="@+id/btnNext"
+            android:id="@+id/btnDown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Next" />
+            android:text="Download" />
     </LinearLayout>
 </LinearLayout>
