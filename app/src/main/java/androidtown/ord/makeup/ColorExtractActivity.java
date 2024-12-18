@@ -10,15 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ColorExtractActivity extends AppCompatActivity {
 
@@ -26,7 +25,7 @@ public class ColorExtractActivity extends AppCompatActivity {
     private ImageView imageView;
     private LinearLayout colorResultLayout;
     private Bitmap selectedImageBitmap;
-    private Set<String> uniqueColors;
+    private List<String> extractedColors; // k-means로 추출된 색상 저장
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +35,9 @@ public class ColorExtractActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         Button uploadImageButton = findViewById(R.id.uploadImageButton);
         Button homeButton = findViewById(R.id.homeButton);
+        Button recommendButton = findViewById(R.id.recommendButton);
         colorResultLayout = findViewById(R.id.colorResultLayout);
-        uniqueColors = new HashSet<>();
+        extractedColors = new ArrayList<>();
 
         // 이미지 업로드 버튼 클릭
         uploadImageButton.setOnClickListener(v -> openImageChooser());
@@ -47,6 +47,17 @@ public class ColorExtractActivity extends AppCompatActivity {
             Intent intent = new Intent(ColorExtractActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
+        });
+
+        // 추천 버튼 클릭
+        recommendButton.setOnClickListener(v -> {
+            if (!extractedColors.isEmpty()) {
+                Intent intent = new Intent(ColorExtractActivity.this, ProductRecommendationActivity.class);
+                intent.putStringArrayListExtra("extractedColors", new ArrayList<>(extractedColors));
+                startActivity(intent);
+            } else {
+                showToast("No colors extracted. Please upload an image first.");
+            }
         });
     }
 
@@ -64,54 +75,121 @@ public class ColorExtractActivity extends AppCompatActivity {
             try {
                 selectedImageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                 imageView.setImageBitmap(selectedImageBitmap);
-                extractColorsFromImage(selectedImageBitmap);
+                extractColorsUsingKMeans(selectedImageBitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    // 색상 추출 함수
-    private void extractColorsFromImage(Bitmap bitmap) {
-        uniqueColors.clear();
-        colorResultLayout.removeAllViews();
-
+    private void extractColorsUsingKMeans(Bitmap bitmap) {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
+        List<int[]> pixels = new ArrayList<>();
 
-        // 이미지의 각 픽셀 색상 가져오기
-        for (int y = 0; y < height; y += 10) { // 10px 단위로 건너뛰어 성능 최적화
+        // 이미지의 모든 픽셀 RGB 값 수집
+        for (int y = 0; y < height; y += 10) {  // 샘플링을 위해 10픽셀 단위
             for (int x = 0; x < width; x += 10) {
                 int pixel = bitmap.getPixel(x, y);
-                String hexColor = String.format("#%06X", (0xFFFFFF & pixel));
-
-                if (uniqueColors.add(hexColor)) {
-                    addColorToResultLayout(hexColor);
-                }
+                int r = Color.red(pixel);
+                int g = Color.green(pixel);
+                int b = Color.blue(pixel);
+                pixels.add(new int[]{r, g, b});
             }
+        }
+
+        // k-means 실행 (k=10)
+        List<int[]> centroids = kMeans(pixels, 10);
+
+        // 추출된 색상 추가 및 UI에 표시
+        extractedColors.clear();
+        colorResultLayout.removeAllViews();
+
+        for (int[] centroid : centroids) {
+            String hexColor = String.format("#%02X%02X%02X", centroid[0], centroid[1], centroid[2]);
+            extractedColors.add(hexColor);
+            addColorToResultLayout(hexColor);
         }
     }
 
-    // 색상 결과를 동적으로 레이아웃에 추가
+    private List<int[]> kMeans(List<int[]> pixels, int k) {
+        List<int[]> centroids = new ArrayList<>();
+        // 초기 랜덤 중심점 설정
+        for (int i = 0; i < k; i++) {
+            centroids.add(pixels.get(i * pixels.size() / k));
+        }
+
+        boolean centroidsChanged;
+        do {
+            centroidsChanged = false;
+            List<List<int[]>> clusters = new ArrayList<>();
+            for (int i = 0; i < k; i++) clusters.add(new ArrayList<>());
+
+            // 각 픽셀을 가장 가까운 클러스터에 할당
+            for (int[] pixel : pixels) {
+                int closestIndex = 0;
+                double minDistance = Double.MAX_VALUE;
+                for (int i = 0; i < k; i++) {
+                    double distance = euclideanDistance(pixel, centroids.get(i));
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        closestIndex = i;
+                    }
+                }
+                clusters.get(closestIndex).add(pixel);
+            }
+
+            // 새로운 중심점 계산
+            for (int i = 0; i < k; i++) {
+                if (!clusters.get(i).isEmpty()) {
+                    int[] newCentroid = calculateMean(clusters.get(i));
+                    if (!isEqual(centroids.get(i), newCentroid)) {
+                        centroidsChanged = true;
+                        centroids.set(i, newCentroid);
+                    }
+                }
+            }
+        } while (centroidsChanged);
+
+        return centroids;
+    }
+
+    private double euclideanDistance(int[] a, int[] b) {
+        return Math.sqrt(Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2) + Math.pow(a[2] - b[2], 2));
+    }
+
+    private int[] calculateMean(List<int[]> cluster) {
+        int sumR = 0, sumG = 0, sumB = 0;
+        for (int[] pixel : cluster) {
+            sumR += pixel[0];
+            sumG += pixel[1];
+            sumB += pixel[2];
+        }
+        int size = cluster.size();
+        return new int[]{sumR / size, sumG / size, sumB / size};
+    }
+
+    private boolean isEqual(int[] a, int[] b) {
+        return a[0] == b[0] && a[1] == b[1] && a[2] == b[2];
+    }
+
     private void addColorToResultLayout(String hexColor) {
         LinearLayout colorItemLayout = new LinearLayout(this);
         colorItemLayout.setOrientation(LinearLayout.HORIZONTAL);
 
-        // 색상 이미지
         View colorView = new View(this);
         colorView.setLayoutParams(new LinearLayout.LayoutParams(100, 100));
         colorView.setBackgroundColor(Color.parseColor(hexColor));
 
-        // 색상 코드 버튼
         Button colorCodeButton = new Button(this);
         colorCodeButton.setText(hexColor);
-        colorCodeButton.setOnClickListener(v -> {
-            // 버튼 클릭 시 동작 추가 (필요에 따라)
-        });
 
-        // 색상 이미지와 코드 버튼 추가
         colorItemLayout.addView(colorView);
         colorItemLayout.addView(colorCodeButton);
         colorResultLayout.addView(colorItemLayout);
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
