@@ -42,7 +42,10 @@
         <activity
             android:name=".NextActivity"
             android:exported="true" />
+        <activity android:name=".ColorExtractActivity" />
 
     </application> <!-- application 태그 닫기 -->
+
+
 
 </manifest>

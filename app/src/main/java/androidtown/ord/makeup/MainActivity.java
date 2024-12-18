@@ -15,11 +15,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button btnColorControl = findViewById(R.id.btnColorControl);
+        Button btnRecommend = findViewById(R.id.btnRecommend);
 
         btnColorControl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ColorControlActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        btnRecommend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ColorExtractActivity.class);
                 startActivity(intent);
             }
         });
