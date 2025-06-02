@@ -1,0 +1,320 @@
+id,section,category,type,brand,product_series,product_name,hex_color,price,etc
+1,lip,Lipstick,solid,Mac,M·A·CXIMAL SLEEK SATIN LIPSTICK,게싱 게임,#3D0C18,39000,
+2,lip,Lipstick,solid,Mac,M·A·CXIMAL SLEEK SATIN LIPSTICK,스윗 하트,#9B3536,39000,
+3,lip,Lipstick,solid,Mac,M·A·CXIMAL SLEEK SATIN LIPSTICK,모란지,#E9513E,39000,
+4,lip,Lipstick,solid,Mac,M·A·CXIMAL SLEEK SATIN LIPSTICK,에스프레소 유어셀프,#682C1B,39000,
+5,lip,Lipstick,solid,Mac,M·A·CXIMAL SLEEK SATIN LIPSTICK,핑크 페퍼민트,#B47685,39000,
+6,lip,Lipstick,solid,Mac,M·A·CXIMAL SLEEK SATIN LIPSTICK,바이올렛 페이퍼,#871975,39000,
+7,lip,Lipstick,solid,Mac,M·A·CXIMAL SILKY MATTE LIPSTICK,허니러브,#BF7D6E,39000,
+8,lip,Lipstick,solid,Mac,M·A·CXIMAL SILKY MATTE LIPSTICK,야쉬,#A5705C,39000,
+9,lip,Lipstick,solid,Mac,M·A·CXIMAL SILKY MATTE LIPSTICK,카인다 섹시,#AB675A,39000,
+10,lip,Lipstick,solid,Mac,M·A·CXIMAL SILKY MATTE LIPSTICK,소어,#7D4D4D,39000,
+11,lip,Lipstick,solid,Mac,M·A·CXIMAL SILKY MATTE LIPSTICK,액팅 내츄럴,#CFA282,39000,
+12,lip,Lipstick,solid,Mac,M·A·CXIMAL SILKY MATTE LIPSTICK,아이코닉 포토,#82462C,39000,
+13,lip,Lipstick,solid,Mac,M·A·CXIMAL SILKY MATTE LIPSTICK,베어 맥시멀,#412B26,39000,
+14,lip,Lipstick,solid,Mac,M·A·CXIMAL SILKY MATTE LIPSTICK,믹스드 미디어,#56272C,39000,
+15,lip,Lipstick,liquid,Mac,Powder Kiss Liquid Lipcolour,에스칸달로,#EE3E4B,"49,000",
+16,lip,Lipstick,liquid,Mac,Powder Kiss Liquid Lipcolour,엘레강스 이즈 런드,#C4304F,"49,000",
+17,lip,Lipstick,liquid,Mac,Powder Kiss Liquid Lipcolour,임펄시브,#A84D3A,"49,000",
+18,lip,Lipstick,liquid,Mac,Powder Kiss Liquid Lipcolour,핫팬츠,#9E1B24,"49,000",
+19,lip,Lipstick,liquid,Mac,Powder Kiss Liquid Lipcolour,페로쉬,#84404D,"49,000",
+20,lip,Lipstick,liquid,Mac,Powder Kiss Liquid Lipcolour,데이트 메이커,#C26963,"49,000",
+21,lip,Lipstick,liquid,Mac,Powder Kiss Liquid Lipcolour,체스트넛,#442C22,"49,000",
+22,lip,Tint,liquid,Romand,쥬시 래스팅 틴트 뉴베어,27. Pink popsicle,#E60F74,"13,000",
+23,lip,Tint,liquid,Romand,쥬시 래스팅 틴트 뉴베어,26. Very berry pink,#FF4497,"13,000",
+24,lip,Tint,liquid,Romand,쥬시 래스팅 틴트 뉴베어,32. Bare berry smoothie,#FFA1D1,"13,000",
+25,lip,Tint,liquid,Romand,쥬시 래스팅 틴트 뉴베어,13. Eat dotori,#8A2B19,"13,000",
+26,lip,Tint,liquid,Romand,쥬시 래스팅 틴트 뉴베어,7. Jujube,#A73336,"13,000",
+27,lip,Tint,liquid,Romand,쥬시 래스팅 틴트 뉴베어,22. Pemelo skin,#B96051,"13,000",
+28,lip,Tint,liquid,Dior,어딕트 립 맥시마이저,92. 가넷 피즈,#C45261,"51,000",
+29,lip,Tint,liquid,Dior,어딕트 립 맥시마이저,94. 아쿠아팝,#7FE0DB,"51,000",
+30,lip,Tint,liquid,Dior,어딕트 립 맥시마이저,90. 스파클리 시에나,#D87A73,"51,000",
+31,lip,Tint,liquid,Dior,어딕트 립 맥시마이저,212. 튀튀,#E3999E,"51,000",
+32,lip,Tint,liquid,Dior,어딕트 립 맥시마이저,30. 쉬어로즈,#E86271,"51,000",
+33,lip,Tint,liquid,Dior,어딕트 립 맥시마이저,3. 홀로그래픽 라벤더,#EB83AA,"51,000",
+34,lip,Tint,liquid,Dior,어딕트 립 맥시마이저,5. 쉬머 스트로베리,#FA5B81,"51,000",
+35,lip,Lipstick,solid,Yves Saint Laurent ,루쥬 쀠르 꾸뛰르,N15. 누드 셀프,#AB5755,"62,000",
+36,lip,Lipstick,solid,Yves Saint Laurent ,루쥬 쀠르 꾸뛰르,N44. 누드 라발리에,#D4777F,"62,000",
+37,lip,Lipstick,solid,Yves Saint Laurent ,루쥬 쀠르 꾸뛰르,R1 르 루쥬,#B41625,"62,000",
+38,lip,Lipstick,solid,Yves Saint Laurent ,루쥬 쀠르 꾸뛰르,R21. 루쥬 ㅜ파라독스,#B71034,"62,000",
+39,lip,Lipstick,solid,Yves Saint Laurent ,루쥬 쀠르 꾸뛰르,R1966 루주 리브르,#A42A28,"62,000",
+40,lip,Tint,liquid,Etude,픽싱틴트,1. 아날로그 로즈,#C0343F,12000,
+41,lip,Tint,liquid,Etude,픽싱틴트,2. 빈티지 레드,#AB3938,12000,
+42,lip,Tint,liquid,Etude,픽싱틴트,3. 멜로우 피치,#D55A53,12000,
+43,lip,Tint,liquid,Etude,픽싱틴트,4. 진저 밀크티,#B86A54,12000,
+44,lip,Tint,liquid,Etude,픽싱틴트,5. 미드나잇 모브,#B95D60,12000,
+45,lip,Tint,liquid,Etude,픽싱틴트,7. 크랜베리 플럼,#B2474F,12000,
+46,lip,Tint,liquid,Etude,픽싱틴트,10. 스모키 체리,#EA335F,12000,
+47,lip,Tint,liquid,Etude,픽싱틴트,11. 로즈 블렌딩,#A93250,12000,
+48,lip,Tint,liquid,Etude,픽싱틴트,12. 살몬브릭,#C35A57,12000,
+49,lip,Tint,liquid,Etude,픽싱틴트,13. 멜란지 로즈,#F56E68,12000,
+50,lip,Tint,liquid,Etude,픽싱틴트,14. 로즈 라일락,#89174A,12000,
+51,lip,Tint,liquid,Etude,픽싱틴트,15. 우디 핑크,#A8505E,12000,
+52,lip,Tint,liquid,Etude,픽싱틴트,16. 베이크드 피칸,#9E4243,12000,
+53,lip,Tint,liquid,Etude,픽싱틴트,17. 베리 레드,#68202B,12000,
+54,lip,Tint,liquid,Etude,픽싱틴트,18. 쿨핑 온 탑,#C4798D,12000,
+55,lip,Tint,liquid,Etude,픽싱틴트,19. 코랄 브리즈,#D7504D,12000,
+56,lip,Tint,liquid,Etude,픽싱틴트,20. 핑크 피그,#AA3F49,12000,
+57,lip,Tint,liquid,Clio,허그 블러 틴트,My Little Berry,#db798c,36000,
+58,lip,Tint,liquid,Clio,허그 블러 틴트,Coral Pairing,#da8179,36000,
+59,lip,Tint,liquid,Clio,허그 블러 틴트,Precious Lavender,#c36078,36000,
+60,lip,Tint,liquid,Clio,허그 블러 틴트,Beloved Pink,#c06974,36000,
+61,lip,Tint,liquid,Clio,허그 블러 틴트,Heart-warming Rose,#b34b58,36000,
+62,lip,Tint,liquid,Clio,허그 블러 틴트,Best Buddy Peach,#d16e71,36000,
+63,lip,Tint,liquid,Clio,허그 블러 틴트,Soulful Fig,#a45551,36000,
+64,lip,Tint,liquid,Clio,허그 블러 틴트,Gentle Hug Plum,#b75067,36000,
+65,lip,Tint,liquid,Clio,크리스탈 글램 틴트,빈티지 애플,#d24b53,18000,
+66,lip,Tint,liquid,Clio,크리스탈 글램 틴트,썸머 애프리콧,#fa785a,18000,
+67,lip,Tint,liquid,Clio,크리스탈 글램 틴트,블러쉬드 피치,#fb587f,18000,
+68,lip,Tint,liquid,Clio,크리스탈 글램 틴트,페일 플럼,#bf516e,18000,
+69,lip,Tint,liquid,Clio,크리스탈 글램 틴트,프레쉬 체리,#c31e3c,18000,
+70,lip,Tint,liquid,Clio,크리스탈 글램 틴트,데일리 모브,#eb6476,18000,
+71,lip,Tint,liquid,Clio,크리스탈 글램 틴트,모던 코랄 베이지,#dc896b,18000,
+72,lip,Tint,liquid,Clio,크리스탈 글램 틴트,젠틀 시나몬,#8b141a,18000,
+73,lip,Tint,liquid,Clio,크리스탈 글램 틴트,베어 피치,#fe6b64,18000,
+74,lip,Tint,liquid,Clio,크리스탈 글램 틴트,베이비 베리,#fe2c6d,18000,
+75,lip,Tint,liquid,Clio,크리스탈 글램 틴트,멜로우 피그,#f57a72,18000,
+76,lip,Tint,liquid,Clio,크리스탈 글램 틴트,파이어리 로즈,#dd2436,18000,
+77,lip,Tint,liquid,Clio,크리스탈 글램 틴트,코숏진주코랄,#ff8d66,18000,
+78,lip,Tint,liquid,Clio,크리스탈 글램 틴트,하트핑크다이아,#f95382,18000,
+79,lip,Tint,liquid,Clio,크리스탈 글램 틴트,그루밍피치오팔,#da6e52,18000,
+80,lip,Tint,liquid,Clio,크리스탈 글램 틴트,럭셔리모브루비,#e14a80,18000,
+81,lip,Tint,liquid,Clio,크리스탈 글램 틴트,클래식 애플,#f74c5c,18000,
+82,lip,Tint,liquid,Clio,크리스탈 글램 틴트,프레쉬 애플,#ef6886,18000,
+83,lip,Tint,liquid,Clio,크리스탈 글램 틴트,베이비 애플,#ef6e6c,18000,
+84,lip,Tint,liquid,Clio,크리스탈 글램 틴트,바닐라 애플,#ef8770,18000,
+85,lip,Tint,liquid,Clio,크리스탈 글램 틴트,설탕 깃펜 레드,#e14848,18000,
+86,lip,Tint,liquid,Clio,크리스탈 글램 틴트,호박 주스 코랄,#f6573c,18000,
+87,lip,Tint,liquid,Clio,크리스탈 글램 틴트,버티보트의 솜사탕 젤리,#f57788,18000,
+88,lip,Tint,liquid,Clio,크리스탈 글램 틴트,개구리 초콜릿,#b15d54,18000,
+89,lip,Tint,liquid,Peripera,잉크 무드 글로이 틴트 ,웜행평가,#f28566,11000,
+90,lip,Tint,liquid,Peripera,잉크 무드 글로이 틴트 ,코랄특강,#f77068,11000,
+91,lip,Tint,liquid,Peripera,잉크 무드 글로이 틴트 ,쿨타강사,#e85f80,11000,
+92,lip,Tint,liquid,Peripera,잉크 무드 글로이 틴트 ,손웜수템,#e0655e,11000,
+93,lip,Tint,liquid,Peripera,잉크 무드 글로이 틴트 ,맘찍로즈,#eb6465,11000,
+94,lip,Tint,liquid,Peripera,잉크 무드 글로이 틴트 ,어쩔체리,#c32150,11000,
+95,lip,Tint,liquid,Peripera,잉크 무드 글로이 틴트 ,웜고리즘,#f9908d,11000,
+96,lip,Tint,liquid,Peripera,잉크 무드 글로이 틴트 ,쿨톤치드,#cb3f63,11000,
+97,lip,Tint,liquid,Peripera,잉크 무드 글로이 틴트 ,여기누웜,#e98c7a,11000,
+98,lip,Tint,liquid,Peripera,잉크 무드 글로이 틴트 ,쿨당대란,#cd6a7c,11000,
+99,lip,Tint,liquid,Peripera,잉크 무드 글로이 틴트 ,당맛도리,#b75145,11000,
+100,lip,Tint,liquid,Peripera,잉크 무드 글로이 틴트 ,쿨소평가,#ff82bc,11000,
+101,lip,Tint,liquid,Peripera,잉크 무드 글로이 틴트 ,쿨계포상,#e35a6a,11000,
+102,lip,Tint,liquid,Peripera,잉크 무드 글로이 틴트 ,쩡신차렷,#ff7666,11000,
+103,lip,Tint,liquid,Peripera,잉크 무드 글로이 틴트 ,자몽부심,#ed4a37,11000,
+104,lip,Tint,liquid,Peripera,잉크 무드 글로이 틴트 ,힙플딸기,#ff4f80,11000,
+105,lip,Tint,liquid,Peripera,잉크 무드 글로이 틴트 ,왤케포도,#ca3674,11000,
+106,lip,Tint,liquid,Peripera,잉크 무드 글로이 틴트 ,핑토당토,#ef7b7c,11000,
+107,lip,Tint,liquid,Peripera,잉크 무드 글로이 틴트 ,웜탠다드,#e05d4e,11000,
+108,lip,Tint,liquid,Peripera,잉크 무드 글로이 틴트 ,쿨레벌떡,#bd5d6c,11000,
+109,lip,Tint,liquid,Peripera,잉크 무드 글로이 틴트 ,행집베리,#da7388,11000,
+110,lip,Tint,liquid,Peripera,잉크 무드 글로이 틴트 ,명예딸기광,#e30021,11000,
+111,lip,Tint,liquid,Peripera,잉크 무드 글로이 틴트 ,딸기야가자,#ff3765,11000,
+112,eye,eye shadow,matte,Mac,EYE SHADOW,오메가,#CEA983,36000,
+113,eye,eye shadow,matte,Mac,EYE SHADOW,로얄 랑데부,#CA8D81,36000,
+114,eye,eye shadow,matte,Mac,EYE SHADOW,샌드스톤,#C89276,36000,
+115,eye,eye shadow,matte,Mac,EYE SHADOW,브룰,#FAD2B5,36000,
+116,eye,eye shadow,shimmer,Mac,EYE SHADOW,슈룸,#F9EDE8,36000,
+117,eye,eye shadow,matte,Mac,EYE SHADOW,허니 러스트,#CDAB9D,36000,
+118,eye,eye shadow,pearl,Mac,EYE SHADOW,올 댓 글리터스,#F1BF9F,36000,
+119,eye,eye shadow,matte,Mac,EYE SHADOW,모티프,#E2936C,36000,
+120,eye,eye shadow,matte,Mac,EYE SHADOW,레자티스트,#A78B7E,36000,
+121,eye,eye shadow,shimmer,Mac,EYE SHADOW,네이키드 런치,#F7D9CB,36000,
+122,eye,eye shadow,shimmer,Mac,EYE SHADOW,라이스 페이퍼,#DAA473,36000,
+123,eye,eye shadow,pearl,Mac,EYE SHADOW,소바,#AA6468,36000,
+124,eye,eye shadow,matte,Mac,EYE SHADOW,로즈 비포 브로스,#C47166,36000,
+125,eye,eye shadow,matte,Mac,EYE SHADOW,코퍼링,#C47166,36000,
+126,eye,eye shadow,matte,Mac,EYE SHADOW,테테-아-틴트,#F5B299,36000,
+127,eye,eye shadow,pearl,Mac,EYE SHADOW,리브라,#D17479,36000,
+128,eye,eye shadow,pearl,Mac,EYE SHADOW,인 리빙 핑크,#D6666A,36000,
+129,eye,eye shadow,pearl,Mac,EYE SHADOW,투투 굿,#D87753,36000,
+130,eye,eye shadow,pearl,Mac,EYE SHADOW,익스펜시브 핑크,#CC8A79,36000,
+131,eye,eye shadow,matte,Mac,EYE SHADOW,걸리,#DAA3AE,36000,
+132,eye,eye shadow,matte,Mac,EYE SHADOW,에스프레소,#935D37,36000,
+133,eye,eye shadow,matte,Mac,EYE SHADOW,핀잔,#AD6C66,36000,
+134,eye,eye shadow,pearl,Mac,EYE SHADOW,템팅,#AD6B3F,36000,
+135,eye,eye shadow,matte,Mac,EYE SHADOW,소프트 브라운,#DC9B73,36000,
+136,eye,eye shadow,pearl,Mac,EYE SHADOW,파라디스코,#E28E81,36000,
+137,eye,eye shadow,matte,Mac,EYE SHADOW,웨지,#DBA47B,36000,
+138,eye,eye shadow,pearl,Mac,EYE SHADOW,멀치,#A76D5C,36000,
+139,eye,eye shadow,pearl,Mac,EYE SHADOW,텍스처,#967868,36000,
+140,eye,eye shadow,pearl,Mac,EYE SHADOW,징글 볼 브론즈,#D78148,36000,
+141,eye,eye shadow,matte,Mac,EYE SHADOW,내추럴 와일더니스,#B8793A,36000,
+142,eye,eye shadow,matte,Mac,EYE SHADOW,오,#B17370,36000,
+143,eye,eye shadow,matte,Mac,EYE SHADOW,서스피셔슬리 스위트,#F98C72,36000,
+144,eye,eye shadow,matte,Mac,EYE SHADOW,앤티크드,#AA7369,36000,
+145,eye,eye shadow,pearl,Mac,EYE SHADOW,앰버 라이트,#E98D47,36000,
+146,eye,eye shadow,matte,Mac,EYE SHADOW,코르크,#B38A74,36000,
+147,eye,eye shadow,pearl,Mac,EYE SHADOW,새틴 토프,#AC766A,36000,
+148,eye,eye shadow,matte,Mac,EYE SHADOW,브룬,#6F584F,36000,
+149,eye,eye shadow,matte,Mac,EYE SHADOW,그레이스톤,#655F65,36000,
+150,eye,eye shadow,matte,Mac,EYE SHADOW,코케트,#9E8572,36000,
+151,eye,eye shadow,matte,Mac,EYE SHADOW,카본,#1E1B1D,36000,
+152,eye,eye shadow,matte,Mac,EYE SHADOW,스톰워치,#3B5461,36000,
+153,eye,eye shadow,matte,Mac,EYE SHADOW,트라이애니얼 웨이브,#0080CD,36000,
+154,eye,eye shadow,matte,Mac,EYE SHADOW,인 더 섀도우스,#325EBE,36000,
+155,eye,eye shadow,matte,Mac,EYE SHADOW,민트 컨디션,#B3D2BF,36000,
+156,eye,eye shadow,matte,Mac,EYE SHADOW,모머니 모프라블럼스,#7D622F,36000,
+157,eye,eye shadow,matte,Mac,EYE SHADOW,왓츠 더 와이파이,#C2C955,36000,
+158,eye,eye shadow,matte,Mac,EYE SHADOW,댓츠 쇼비즈 베이비,#416152,36000,
+159,eye,eye shadow,matte,Mac,EYE SHADOW,마쉬,#AC8556,36000,
+160,eye,eye shadow,pearl,Mac,EYE SHADOW,뉴 크롭,#57B896,36000,
+161,eye,eye shadow,matte,Mac,EYE SHADOW,사모아 실크,#F29E6F,36000,
+162,eye,eye shadow,matte,Mac,EYE SHADOW,쉘 피치,#FB927E,36000,
+163,eye,eye shadow,matte,Mac,EYE SHADOW,파워 투 더 퍼플,#623570,36000,
+164,eye,eye shadow,pearl,Mac,EYE SHADOW,휴미드,#506B28,36000,
+165,eye,eye shadow,matte,Mac,EYE SHADOW,스케치,#893B54,36000,
+166,eye,eye shadow,matte,Mac,EYE SHADOW,스태리 나이트,#562C31,36000,
+167,eye,eye shadow,matte,Mac,EYE SHADOW,누드 모델,#844342,36000,
+168,eye,eye shadow,matte,Mac,EYE SHADOW,험블브래그,#E4BED2,36000,
+169,eye,eye shadow,pearl,Mac,EYE SHADOW,다크룸,#7A3C74,36000,
+170,eye,eye shadow,pearl,Mac,EYE SHADOW,크랜베리,#AC4860,36000,
+171,eye,eye shadow,pearl,Mac,EYE SHADOW,우드 윙크드,#DAA378,36000,
+172,eye,eye shadow,matte,Mac,EYE SHADOW,쉐이디 산타,#7C4148,36000,
+173,eye,eye shadow,pearl,Mac,EYE SHADOW,세이블,#A7624E,36000,
+174,eye,eye shadow,matte,Mac,EYE SHADOW,메모리즈 오브 스페이스,#FBC856,36000,
+175,eye,eye shadow,pearl,Mac,EYE SHADOW,이프 잇 에인 바로크,#E8A639,36000,
+176,eye,eye shadow,pearl,Clio,소프트 블렌딩 섀도우 스틱,폴 인 피오니,#df91ac,17000,
+177,eye,eye shadow,pearl,Clio,소프트 블렌딩 섀도우 스틱,페이보릿 피치,#f4bbb9,17000,
+178,eye,eye shadow,pearl,Clio,소프트 블렌딩 섀도우 스틱,헤이즈 베리,#d8a3aa,17000,
+179,eye,eye shadow,pearl,Clio,소프트 블렌딩 섀도우 스틱,허니 베스티,#f8c8bc,17000,
+180,eye,eye shadow,matte,Clio,소프트 블렌딩 섀도우 스틱,캐시미어 뮤트,#c9a59d,17000,
+181,eye,eye shadow,matte,Clio,소프트 블렌딩 섀도우 스틱,그레이 퍼지,#a48272,17000,
+182,eye,eye shadow,matte,Clio,소프트 블렌딩 섀도우 스틱,멜로우 우디,#be8d7e,17000,
+183,eye,eye shadow,glitter,Clio,소프트 블렌딩 섀도우 스틱,트윙클 오션,#ededf0,17000,
+184,eye,eye shadow,glitter,Clio,소프트 블렌딩 섀도우 스틱,키튼 핑크,#ebbec1,17000,
+185,eye,eye shadow,glitter,Clio,소프트 블렌딩 섀도우 스틱,엔젤릭 피치,#d4a5a0,17000,
+186,eye,eye shadow,glitter,Clio,프로 싱글 섀도우,캣 브리즈,#f2d6bf,13000,
+187,eye,eye shadow,glitter,Clio,프로 싱글 섀도우,핀 라이트,#f6c9c4,13000,
+188,eye,eye shadow,glitter,Clio,프로 싱글 섀도우,펄펙션,#eec3b1,13000,
+189,eye,eye shadow,glitter,Clio,프로 싱글 섀도우,바이올렛 판타지,#f3dcef,13000,
+190,eye,eye shadow,glitter,Clio,프로 싱글 섀도우,스틸 뮤트,#d9c8b9,13000,
+191,eye,lens,one-month,lensme,판데이아,판데이아 베이지,#dccab8,25000,12.5
+192,eye,lens,one-day,lensme,판데이아 ,판데이아 베이지,#dccab8,19000,12.5
+193,eye,lens,one-month,lensme,애쉬즈,애쉬즈 브라운,#eae0cc,25000,13.2
+194,eye,lens,one-day,lensme,애쉬즈,애쉬즈 브라운,#eae0cc,19000,13.2
+195,eye,lens,one-month,lensme,유스온,유스온 브라운,#eadfc8,25000,13.8
+196,eye,lens,one-day,lensme,유스온,유스온 원데이 브라운,#eadfc8,19000,13.8
+197,eye,lens,one-month,lensme,판데이아,판데이아 그레이,#e3ddd8,25000,12.5
+198,eye,lens,one-day,lensme,판데이아,판데이아 그레이,#e3ddd8,19000,12.5
+199,eye,lens,one-month,lensme,애쉬즈,애쉬즈 그레이,#e0e0e0,25000,13.2
+200,eye,lens,one-day,lensme,애쉬즈,애쉬즈 그레이,#e0e0e0,25000,13.2
+201,eye,lens,one-month,lensme,유스온,유스온 그레이,#acacac,25000,13.8
+202,eye,lens,one-day,lensme,유스온,유스온 원데이 그레이,#acacac,25000,13.8
+203,eye,lens,one-month,lensme,유스,유스 그레이,#e5e4e0,25000,13
+204,eye,lens,one-day,lensme,유스,유스 원데이 그레이,#e5e4e0,19000,13
+205,eye,lens,one-day,lensme,누오,누오 원데이 그레이,#dcdcdc,19000,13.5
+206,eye,lens,one-month,lensme,애쉬즈,애쉬즈 쵸코,#e8dad0,25000,13.2
+207,eye,lens,one-day,lensme,애쉬즈,애쉬즈 쵸코,#e8dad0,19000,13.2
+208,eye,lens,one-month,lensme,유스,유스 쵸코,#e2d4cc,25000,13
+209,eye,lens,one-day,lensme,유스,유스 원데이 쵸코,#e2d4cc,19000,13
+210,eye,lens,one-day,lensme,누오,누오 원데이 쵸코,#e1cac0,19000,13.5
+211,eye,lens,one-month,lensme,유스온,유스온 빈티지블랙,#979a94,25000,13.8
+212,eye,lens,one-day,lensme,유스온,유스온 원데이 빈티지블랙,#979a94,19000,13.8
+213,eye,lens,one-month,lensme,유스,유스 블랙,#d3d2d1,25000,13
+214,eye,lens,one-day,lensme,유스,유스 원데이 블랙,#d3d2d1,19000,13
+215,eye,lens,one-day,lensme,누오,누오 원데이 블랙,#a4a3a1,19000,13.5
+216,eye,lens,one-month,lensme,판데이아,판데이아 물빛,#d8e0e6,25000,12.5
+217,eye,lens,one-day,lensme,판데이아,판데이아 물빛,#d8e0e6,19000,12.5
+218,eye,lens,one-month,lensme,모브링,모브링 올리브,#dfdaaf,20000,12.6
+219,eye,lens,one-month,lensme,플루링,플루링 블루그레이,#b4bbc1,15000,13.4
+220,eye,lens,one-month,lensme,미블링,미블링 올리브,#d4e1b0,30000,13.3
+221,eye,lens,one-month,lensme,큐링클,큐링클 블루,#9cb7c8,30000,13.5
+222,eye,lens,one-month,lensme,오로링,오로링 민트,#9bd9d0,30000,12.7
+223,eye,lens,one-month,lensme,팝하트,팝하트 올리브,#c3c79c,30000,13.2
+224,eye,lens,one-month,lensme,큐링클,큐링클 바이올렛,#c4b3ca,30000,13.5
+225,eye,lens,one-month,lensme,엘문,엘문 바이올렛,#a99db7,30000,13.3
+226,eye,lens,one-month,lensme,헤이스타,헤이스타 핑크올리브,#d3a798,30000,13.6
+227,eye,lens,one-month,lensme,팝하트,팝하트 바이올렛,#d9b5dc,30000,13.2
+228,eye,lens,one-month,lensme,팝하트,팝하트 핑크,#e2aba6,30000,13.2
+229,eye,lens,one-month,lensme,파우스트,파우스트 핑크,#8a5363,30000,13.3
+230,eye,lens,one-month,lensme,푸논,푸논 레드,#cc4646,30000,13.8
+231,eye,lens,one-day,o-lens,리얼리쉬,리얼리쉬 원데이 그레이,#e5e2dc,20000,13.5
+232,eye,lens,one-day,o-lens,리얼리쉬,리얼리쉬 원데이 브라운,#f9e2c5,20000,13.5
+233,eye,lens,one-day,o-lens,리얼링,리얼링 원데이 브라운,#d3c4ae,20000,12.5
+234,eye,lens,one-day,o-lens,리얼링,리얼링 원데이 그레이,#ddd9d8,20000,12.5
+235,eye,lens,one-day,o-lens,더블틴트,더블틴트 원데이 그레이,#d8d9d4,36000,12.9
+236,eye,lens,one-day,o-lens,더블틴트,더블틴트 원데이 브라운,#f2d9ba,36000,12.9
+237,eye,lens,one-day,o-lens,샤인터치,샤인터치 원데이 밀키브라운,#d6b78f,36000,12.7
+238,eye,lens,one-day,o-lens,샤인터치,샤인터치 원데이 밀키그레이,#bdbcb9,36000,12.7
+239,eye,lens,one-day,o-lens,샤인터치,샤인터치 원데이 밀키초코,#b8a391,36000,12.7
+240,eye,lens,one-day,o-lens,글로이,글로이 원데이 블랙,#948d8c,20000,13.1
+241,eye,lens,one-day,o-lens,글로이,글로이 원데이 브라운,#c0ad9f,20000,13.1
+242,eye,lens,one-day,o-lens,글로이,글로이 원데이 골든올리브,#cec2a7,20000,13.1
+243,eye,lens,one-month,o-lens,리얼링,리얼링 브라운,#d3c4ae,25000,12.5
+244,eye,lens,one-month,o-lens,리얼링,리얼링 그레이,#ddd9d8,25000,12.5
+245,eye,lens,one-month,o-lens,무드나잇,무드나잇 무드초코,#a27d6b,25000,13.3
+246,eye,lens,one-month,o-lens,무드나잇,무드나잇 무드그레이,#bab6b8,25000,13.3
+247,eye,lens,one-month,o-lens,무드나잇,무드나잇 무드브라운,#c8b0a2,25000,13.3
+248,eye,lens,one-month,o-lens,더블틴트,더블틴트 그레이,#d8d9d4,25000,12.9
+249,eye,lens,one-month,o-lens,더블틴트,더블틴트 브라운,#f2d9ba,25000,12.9
+250,eye,lens,one-month,o-lens,샤인터치,샤인터치 밀키브라운,#d6b78f,25000,12.7
+251,eye,lens,one-month,o-lens,샤인터치,샤인터치 밀키초코,#bdbcb9,25000,12.7
+252,eye,lens,one-month,o-lens,샤인터치,샤인터치 밀키그레이,#b8a391,25000,12.7
+253,eye,lens,one-month,o-lens,글로이,글로이 블랙,#948d8c,25000,13.1
+254,eye,lens,one-month,o-lens,글로이,글로이 애쉬그레이,#c2c4c0,25000,13.1
+255,eye,lens,one-month,o-lens,글로이,글로이 브라운,#c0ad9f,25000,13.1
+256,eye,lens,one-month,o-lens,프렌치샤인,프렌치샤인 헤이즐,#f0d6a3,25000,13.2
+257,eye,lens,one-month,o-lens,프렌치샤인,프렌치샤인 그레이,#d9d6cf,25000,13.2
+258,eye,lens,one-month,o-lens,넬라,넬라 애쉬베이지,#ead6b3,25000,13.3
+259,eye,lens,one-month,o-lens,넬라,넬라 애쉬올리브,#dcdd9c,25000,13.3
+260,eye,lens,one-month,o-lens,넬라,넬라 애쉬그레이,#d6d1d2,25000,13.3
+261,eyebrow,eyebrow,Pencil,Peripera,스피디 스키니 브로우,그레이 브라운,#3b3b3b,6000,
+262,eyebrow,eyebrow,Pencil,Peripera,스피디 스키니 브로우,다크 브라운,#604a3d,6000,
+263,eyebrow,eyebrow,Pencil,Peripera,스피디 스키니 브로우,내추럴 브라운,#846749,6000,
+264,eyebrow,eyebrow,Pencil,Peripera,스피디 스키니 브로우,쿨 그레이,#75706c,6000,
+265,eyebrow,eyebrow,Pencil,Peripera,스피디 스키니 브로우,토프 베이지,#af977f,6000,
+266,eyebrow,eyebrow,Pencil,Peripera,스피디 스키니 브로우,토프 브라운,#93806f,6000,
+267,eyebrow,eyebrow,Pencil,Peripera,스피디 스키니 브로우,피오니 토프,#ac877e,6000,
+268,eyebrow,eyebrow,Pencil,Clio,킬브로우 오토 하드 브로우 펜슬,내추럴 브라운,#5a4f4d,15000,
+269,eyebrow,eyebrow,Pencil,Clio,킬브로우 오토 하드 브로우 펜슬,라이트 브라운,#b08a65,15000,
+270,eyebrow,eyebrow,Pencil,Clio,킬브로우 오토 하드 브로우 펜슬,피넛 브라운,#a68d6f,15000,
+271,eyebrow,eyebrow,Pencil,Clio,킬브로우 오토 하드 브로우 펜슬,라이트 그레이,#95877c,15000,
+272,eyebrow,eyebrow,Pencil,Clio,킬브로우 오토 하드 브로우 펜슬,그레이 브라운,#665f59,15000,
+273,eyebrow,eyebrow,Pencil,Clio,킬브로우 오토 하드 브로우 펜슬,토프 그레이,#6d5a54,15000,
+274,eyebrow,eyebrow,Pencil,Clio,킬브로우 오토 하드 브로우 펜슬,그레이 핑크,#735b57,15000,
+275,eyebrow,eyebrow,Pen,Clio,킬브로우 듀얼 타투펜,내추럴 브라운,#81553b,20000,
+276,eyebrow,eyebrow,Pen,Clio,킬브로우 듀얼 타투펜,라이트 브라운,#a0593b,20000,
+277,eyebrow,eyebrow,Pen,Clio,킬브로우 듀얼 타투펜,그레이 브라운,#9e8878,20000,
+278,eyebrow,eyebrow,Cara,Clio,킬브로우 슬림 애쉬 브로우카라,애쉬핑크,#81665c,14000,
+279,eyebrow,eyebrow,Cara,Clio,킬브로우 슬림 애쉬 브로우카라,라이트애쉬,#a48768,14000,
+280,eyebrow,eyebrow,Cara,Clio,킬브로우 슬림 애쉬 브로우카라,내추럴애쉬,#6b503a,14000,
+281,eyebrow,eyebrow,Cara,Clio,킬브로우 슬림 애쉬 브로우카라,애쉬그레이,#796052,14000,
+282,eyebrow,eyebrow,Pencil,Clio,킬브로우 슬림 브로우,리얼 브라운,#755d51,14000,
+283,eyebrow,eyebrow,Pencil,Clio,킬브로우 슬림 브로우,마일드 블론디,#ab7e43,14000,
+284,eyebrow,eyebrow,Pencil,Clio,킬브로우 슬림 브로우,애쉬토프,#8e7e7e,14000,
+285,eyebrow,eyebrow,Pencil,Clio,킬브로우 슬림 브로우,쿨 그레이,#5b595c,14000,
+286,eyebrow,eyebrow,Pen,Etude,드로잉 아이즈 컬러링 브로우 카라,다크 브라운,#84614b,9000,
+287,eyebrow,eyebrow,Pen,Etude,드로잉 아이즈 컬러링 브로우 카라,초코 브라운,#745946,9000,
+288,eyebrow,eyebrow,Pen,Etude,드로잉 아이즈 컬러링 브로우 카라,내추럴 브라운,#bc7a53,9000,
+289,eyebrow,eyebrow,Pen,Etude,드로잉 아이즈 컬러링 브로우 카라,라이트 브라운,#ca9665,9000,
+290,eyebrow,eyebrow,Pen,Etude,드로잉 아이즈 컬러링 브로우 카라,애쉬 브라운,#9f7d64,9000,
+291,eyebrow,eyebrow,Pencil,Etude,드로잉 아이 브로우,다크 브라운,#604943,4000,
+292,eyebrow,eyebrow,Pencil,Etude,드로잉 아이 브로우,그레이 브라운,#574d4b,4000,
+293,eyebrow,eyebrow,Pencil,Etude,드로잉 아이 브로우,브라운,#5b3e38,4000,
+294,eyebrow,eyebrow,Pencil,Etude,드로잉 아이 브로우,다크 그레이,#5f5b5c,4000,
+295,eyebrow,eyebrow,Pencil,Etude,드로잉 아이 브로우,그레이,#77746f,4000,
+296,eyebrow,eyebrow,Pencil,Etude,드로잉 아이 브로우,애쉬 브라운,#6b5d54,4000,
+297,eyebrow,eyebrow,Pencil,Etude,드로잉 아이 브로우,라이트 브라운,#8d8379,4000,
+298,eyebrow,eyebrow,Pencil,Etude,더 리얼 아이브로우 오토 펜슬,그레이,#292524,12000,
+299,eyebrow,eyebrow,Pencil,Etude,더 리얼 아이브로우 오토 펜슬,그레이 브라운,#392e28,12000,
+300,eyebrow,eyebrow,Pencil,Etude,더 리얼 아이브로우 오토 펜슬,다크 브라운,#3f2c25,12000,
+301,eyebrow,eyebrow,Pencil,Etude,더 리얼 아이브로우 오토 펜슬,피넛 브라운,#6a4a3b,12000,
+302,eyebrow,eyebrow,Pencil,Etude,베어 엣지 슬림 브로우,다크 브라운,#604943,8000,
+303,eyebrow,eyebrow,Pencil,Etude,베어 엣지 슬림 브로우,내추럴 브라운,#75524c,8000,
+304,eyebrow,eyebrow,Pencil,Etude,베어 엣지 슬림 브로우,그레이 브라운,#504843,8000,
+305,eyebrow,eyebrow,Pencil,Etude,베어 엣지 슬림 브로우,라이트 브라운,#736250,8000,
+306,eyebrow,eyebrow,Pencil,Etude,베어 엣지 슬림 브로우,마일드 토프,#8b7b7b,8000,
+307,eyebrow,eyebrow,Pencil,Romand,롬앤 한올 플랫 브로우,클래식 그레이,#605654,11000,
+308,eyebrow,eyebrow,Pencil,Romand,롬앤 한올 플랫 브로우,그레이스 토프,#77635a,11000,
+309,eyebrow,eyebrow,Pencil,Romand,롬앤 한올 플랫 브로우,모던 베이지,#957c70,11000,
+310,eyebrow,eyebrow,Pencil,Romand,롬앤 한올 플랫 브로우,젠틀 브라운,#745f56,11000,
+311,eyebrow,eyebrow,Pencil,Romand,롬앤 한올 플랫 브로우,마일드 우디,#916b5e,11000,
+312,eyebrow,eyebrow,Pencil,Romand,롬앤 한올 플랫 브로우,메리 블론디,#977663,11000,
+313,eyebrow,eyebrow,Cara,Romand,롬앤 한올 브로우 카라,그레이스 토프,#9d837d,12000,
+314,eyebrow,eyebrow,Cara,Romand,롬앤 한올 브로우 카라,마일드 우디,#b38873,12000,
+315,eyebrow,eyebrow,Cara,Romand,롬앤 한올 브로우 카라,모던 베이지,#c2987f,12000,
+316,eyebrow,eyebrow,Cara,Romand,롬앤 한올 브로우 카라,메리 블론디,#cc9d76,12000,
+317,eyebrow,eyebrow,Pencil,TooCoolForSchool,브로우 디자이닝 펜슬,그레이 브라운,#403933,12000,
+318,eyebrow,eyebrow,Pencil,TooCoolForSchool,브로우 디자이닝 펜슬,다크 브라운,#5f4230,12000,
+319,eyebrow,eyebrow,Pencil,TooCoolForSchool,브로우 디자이닝 펜슬,내추럴 브라운,#75573f,12000,
