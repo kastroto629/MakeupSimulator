@@ -12,8 +12,7 @@ from colormath.color_conversions import convert_color
 
 # ─── 0) CSV→SQLite 초기화 ─────────────────
 def init_cosmetic_db(csv_path="cosmetics.csv", db_path="cosmetics.db"):
-    # TSV 형식: sep='\t'
-    df = pd.read_csv(csv_path)  
+    df = pd.read_csv(csv_path)
     # price: 숫자 외 제거 → int
     df["price"] = (
         df["price"].astype(str)
@@ -55,13 +54,14 @@ def rgb_to_hex(r, g, b):
     return f"#{int(r):02x}{int(g):02x}{int(b):02x}"
 
 def get_html_swatch(hex_color):
+    # 스와치 크기를 조정하려면 width/height 값을 수정하세요.
     return (
-        f"<div style='width:120px; height:50px; "
+        f"<div style='width:40px; height:40px; "
         f"background-color:{hex_color}; border:1px solid #000; "
-        f"border-radius:4px; margin-bottom:8px;'></div>"
+        f"border-radius:4px; display:inline-block;'></div>"
     )
 
-# ─── 2) DB 로드 + Lab 벡터화 (cosmetics.db) ─────────────────────────
+# ─── 2) DB 로드 + 벡터화 ─────────────────────────
 def load_cosmetics(db_path="cosmetics.db"):
     conn = sqlite3.connect(db_path)
     rows = conn.execute("""
@@ -106,10 +106,8 @@ MIN_PRICE, MAX_PRICE = (min(PRICES), max(PRICES)) if PRICES else (0, 0)
 ETCS = [r[9] for r in cosmetic_records if r[9] is not None]
 MIN_ETC, MAX_ETC = (min(ETCS), max(ETCS)) if ETCS else (0.0, 0.0)
 
-
 # ─── Section 기반 동적 필터 맵 구성 ─────────────────────────────
 from collections import defaultdict
-
 section_map = defaultdict(lambda: {"categories": set(), "types": set(), "brands": set(), "series": set()})
 for r in cosmetic_records:
     section, category, typ, brand, series = r[1], r[2], r[3], r[4], r[5]
@@ -117,7 +115,6 @@ for r in cosmetic_records:
     section_map[section]["types"].add(typ)
     section_map[section]["brands"].add(brand)
     section_map[section]["series"].add(series)
-
 section_map = {
     k: {
         "categories": sorted(v["categories"]),
@@ -128,14 +125,12 @@ section_map = {
     for k, v in section_map.items()
 }
 
-
-
 # ─── 3) 필터링 초기화 함수 ─────────────────────────────────────
 def reset_filters_and_results():
     return (
         [],                # section_f
         [],                # category_f
-        [],                # etc_f (렌즈 직경)
+        [],                # etc_f
         [],                # brand_f
         [],                # type_f
         [],                # series_f
@@ -145,8 +140,7 @@ def reset_filters_and_results():
         "",                # rec_html
     )
 
-
-# ─── 4) Cosine 유사도 추천 (etc 포함한 필터링) ──────────────────
+# ─── 4) 추천 함수 (유사도 출력 제외) ─────────────────────────
 def recommend_with_filters(
     hex_code,
     sections, categories, brands, types,
@@ -194,7 +188,7 @@ def recommend_with_filters(
         if not (pmin <= pr <= pmax):
             continue
 
-        # etc 필터링: 사용자가 etc 필터를 선택한 경우만 필터링
+        # etc 필터링: 선택된 etc_choices가 있을 때만 필터링
         if etc_choices:
             if etc_val is not None:
                 if str(round(etc_val, 1)) not in etc_choices:
@@ -207,31 +201,31 @@ def recommend_with_filters(
     if not idxs:
         return "필터 조건에 맞는 제품이 없습니다. 조건을 완화해 보세요.", ""
 
-    # 5) Cosine Similarity 계산
+    # 5) Cosine 유사도 계산 (유사도는 결과 HTML에 표시하지 않음)
     fvecs = cosmetic_vectors[idxs]
     qv = rgb_to_lab_vector(r, g, b)
     sims = cosine_similarity(qv, fvecs)[0]
     top_idxs = sims.argsort()[::-1][:top_n]
 
-    # 6) 추천 결과 HTML 생성
-    html = "<ul style='list-style:none;padding:0;'>"
+    # 6) 추천 결과 HTML 생성 (유사도 제외)
+    html = "<ul style='list-style:none; padding:0;'>"
     for rank in top_idxs:
-        sim = sims[rank]
         rec = cosmetic_records[idxs[rank]]
         _, sec, cat, typ, br, ser, nm, hc, pr, etc_val = rec
         sw = get_html_swatch(hc)
         etc_display = f"{etc_val:.1f}mm" if etc_val is not None else ""
         html += (
-            f"<li style='margin-bottom:8px;'>"
-            f"{sw}<b>{br}</b> {ser} {nm}<br>"
+            f"<li style='margin-bottom:12px; display:flex; align-items:center;'>"
+            f"{sw}"
+            f"<div style='margin-left:8px; line-height:1.2;'>"
+            f"<b>{br}</b> {ser} {nm}<br>"
             f"<code>{hc}</code> | {sec}/{cat}/{typ} | {pr}원"
             + (f" | {etc_display}" if etc_display else "") +
-            f" (유사도: {sim:.2f})"
+            f"</div>"
             "</li>"
         )
     html += "</ul>"
     return f"{len(top_idxs)}개 추천", html
-
 
 # ─── 5) MediaPipe FaceMesh 세팅 ───────────────────────────────────
 mpfm = mp.solutions.face_mesh
@@ -288,6 +282,7 @@ def extract_region_color_histogram(img, add, sub=None, margin=15):
 
 def extract_face_colors(img):
     if img is None:
+        # “입술, 홍채, 눈썹” 각각 (HEX, HTML 스와치) 반환
         return ("#000000", get_html_swatch("#000000")) * 3
     lh, lsw = extract_region_color_histogram(img, [LIPS_OUTER], [LIPS_INNER])
     ih, isw = extract_region_color_histogram(img, IRIS_GROUPS)
@@ -315,9 +310,7 @@ def manual_spoid(img, x, y):
     except Exception as e:
         return "", "", f"에러: {e}", None
 
-# ─── 6) Gradio UI ───────────────────────────────────────
-
-
+# ─── Gradio Blocks UI ───────────────────────────────────────────
 def update_dependent_filters(sections):
     if not sections:
         return (
@@ -346,7 +339,6 @@ def update_filters_dynamic(sections, categories, types, brands, series):
 
     for r in cosmetic_records:
         sec, cat, typ, br, ser = r[1], r[2], r[3], r[4], r[5]
-
         if sections and sec not in sections:
             continue
         if categories and cat not in categories:
@@ -357,13 +349,11 @@ def update_filters_dynamic(sections, categories, types, brands, series):
             continue
         if series and ser not in series:
             continue
-
         cats.add(cat)
         typs.add(typ)
         brs.add(br)
         sers.add(ser)
 
-    # 선택된 값이 choices에 없으면 제거
     valid_cats = [c for c in categories if c in cats]
     valid_typs = [t for t in types if t in typs]
     valid_brs  = [b for b in brands if b in brs]
@@ -376,15 +366,13 @@ def update_filters_dynamic(sections, categories, types, brands, series):
         gr.CheckboxGroup.update(choices=sorted(sers), value=valid_sers),
     )
 
-
-
 def toggle_etc_slider(sections, categories):
     visible = 'lens' in [c.lower() for c in categories]
     if visible:
         choices = sorted({
             f"{float(r[9]):.1f}"
             for r in cosmetic_records
-            if r[2].strip().lower() == "lens" and r[9] is not None and str(r[9]).replace('.', '', 1).isdigit()
+            if (r[2].strip().lower() == "lens") and (r[9] is not None)
         })
         return gr.CheckboxGroup.update(visible=True, choices=choices, value=[])
     else:
@@ -395,42 +383,69 @@ def preview_hex_color(hex_code):
         return get_html_swatch(hex_code)
     return get_html_swatch("#000000")
 
-
 with gr.Blocks() as demo:
     gr.Markdown("## 🎨 색상 추출 & 필터링 옵션 기반 화장품 추천")
 
+    # ─── 상단: 얼굴 업로드 & “입술/홍채/눈썹” 컬러 표시 ─────────────────
     with gr.Row():
-        with gr.Column():
+        # ─── 좌측 컬럼: 이미지 + 수동 스포이드 ─────────────────
+        with gr.Column(scale=1):
             inp = gr.Image(type="numpy", label="이미지 업로드")
-            # size_tb = gr.Textbox(label="이미지 크기")
-            with gr.Row():
-                gr.Markdown("**입술**");   lip_hex,  lip_sw   = gr.Textbox(), gr.HTML()
-                gr.Markdown("**홍채**");   iris_hex, iris_sw = gr.Textbox(), gr.HTML()
-                gr.Markdown("**눈썹**");  brow_hex, brow_sw = gr.Textbox(), gr.HTML()
-            x_tb, y_tb = gr.Textbox(label="X"), gr.Textbox(label="Y")
+            gr.Markdown("**수동 스포이드** (X,Y 입력 후 클릭)")
+            x_tb, y_tb = gr.Textbox(label="X 좌표"), gr.Textbox(label="Y 좌표")
             btn_manual = gr.Button("수동 추출")
-            out_hex_m, out_sw_m, out_stat, out_img = (
-                gr.Textbox(label="HEX"), gr.HTML(), gr.Textbox(label="상태"), gr.Image()
-            )
+            out_hex_m = gr.Textbox(label="수동 HEX", interactive=False)
+            out_sw_m  = gr.HTML(label="수동 스와치")
+            out_stat  = gr.Textbox(label="결과 메시지", interactive=False)
+            out_img   = gr.Image(label="수동 결과 이미지")
 
+        # ─── 우측 컬럼: 자동 추출된 “입술/홍채/눈썹” 컬러 ─────────────────
+        with gr.Column(scale=1):
+            gr.Markdown("**입술**")
+            with gr.Row():
+                lip_sw   = gr.HTML()
+                lip_hex  = gr.Textbox(label="입술 HEX", interactive=False)
+            gr.Markdown("**홍채**")
+            with gr.Row():
+                iris_sw  = gr.HTML()
+                iris_hex = gr.Textbox(label="홍채 HEX", interactive=False)
+            gr.Markdown("**눈썹**")
+            with gr.Row():
+                brow_sw  = gr.HTML()
+                brow_hex = gr.Textbox(label="눈썹 HEX", interactive=False)
+
+    # 업로드 → 자동 색상 추출 콜백
+    inp.change(
+        extract_face_colors,
+        inputs=[inp],
+        outputs=[lip_hex, lip_sw, iris_hex, iris_sw, brow_hex, brow_sw]
+    )
+
+    # 수동 스포이드 콜백
+    btn_manual.click(
+        manual_spoid,
+        inputs=[inp, x_tb, y_tb],
+        outputs=[out_hex_m, out_sw_m, out_stat, out_img]
+    )
+
+    # ─── 중간: 필터 설정 Accordion ─────────────────────────────────
     with gr.Accordion("🔍 추천 필터 설정", open=False):
         section_f  = gr.CheckboxGroup(choices=ALL_SECTIONS,   label="Section")
         category_f = gr.CheckboxGroup(choices=ALL_CATEGORIES, label="Category")
 
-        #동적 할당
+        # ETC 동적 할당용 초기값
         ETC_CHOICES = sorted({
             f"{float(r[9]):.1f}"
             for r in cosmetic_records
-            if r[2].strip().lower() == "lens" and r[9] is not None and str(r[9]).replace('.', '', 1).isdigit()
+            if (r[2].strip().lower() == "lens") and (r[9] is not None)
         })
-
-        ETC_CHOICES_STR = [str(val) for val in ETC_CHOICES]
         etc_f = gr.CheckboxGroup(
             choices=ETC_CHOICES,
             label="Lens Diameter (etc, mm)",
             interactive=True,
-            visible=False #반응형, lens=category일때 visible하기 위함
+            visible=False
         )
+
         brand_f    = gr.CheckboxGroup(choices=ALL_BRANDS,     label="Brand")
         type_f     = gr.CheckboxGroup(choices=ALL_TYPES,      label="Type")
         series_f   = gr.CheckboxGroup(choices=ALL_SERIES,     label="Product Series")
@@ -444,80 +459,84 @@ with gr.Blocks() as demo:
             interactive=True,
             type="range"
         )
-        
-
-
 
         btn_reset  = gr.Button("필터 및 결과 리셋")
 
-
+    # ─── 하단: 추천 입력 & 결과 영역 ─────────────────────────────────
     with gr.Row():
-        gr.Markdown("### 💄 제품 추천")
-        hex_in      = gr.Textbox(label="추천할 HEX 코드 입력", value="#000000")
-        hex_preview = gr.HTML()  # ✅ HEX 색상 미리보기 박스 추가
-        btn_rec     = gr.Button("추천 시작")
-        rec_cnt     = gr.Slider(minimum=1, maximum=20, value=5, step=1, label="추천 수")
-        rec_cnt_out = gr.Textbox(label="추천된 제품 수")
-        rec_html    = gr.HTML(label="추천 결과")
+        # 왼쪽: 추천할 HEX 입력 + 미리보기 + 추천 버튼
+        with gr.Column(scale=1):
+            hex_in      = gr.Textbox(label="추천할 HEX 코드 입력", value="#000000")
+            hex_preview = gr.HTML(label="미리보기 스와치")
+            btn_rec     = gr.Button("추천 시작")
+        # 오른쪽: 추천 개수 슬라이더 + 추천 결과
+        with gr.Column(scale=1):
+            rec_cnt     = gr.Slider(minimum=1, maximum=20, value=5, step=1, label="추천 수")
+            rec_cnt_out = gr.Textbox(label="추천된 제품 수", interactive=False)
+            rec_html    = gr.HTML(label="추천 결과")  # HTML로 제품 리스트 표시
 
+    # “추천할 HEX 입력 → hex_preview” 콜백
+    hex_in.change(
+        preview_hex_color,
+        inputs=[hex_in],
+        outputs=[hex_preview]
+    )
 
-    # 이벤트 연결
-    inp.change(extract_face_colors, inputs=inp,
-               outputs=[lip_hex, lip_sw, iris_hex, iris_sw, brow_hex, brow_sw])
-    btn_manual.click(manual_spoid, inputs=[inp, x_tb, y_tb],
-                     outputs=[out_hex_m, out_sw_m, out_stat, out_img])
-    lip_hex.change(lambda h: str(h) if h.startswith("#") else "#000000",
-                   inputs=lip_hex, outputs=hex_in)
-
+    # “추천 시작” 콜백
     btn_rec.click(
         recommend_with_filters,
-        inputs=[hex_in,
-                section_f, category_f, brand_f, type_f,
-                series_f, name_f,
-                price_f, etc_f,
-                rec_cnt],
+        inputs=[
+            hex_in,
+            section_f, category_f, brand_f, type_f,
+            series_f, name_f,
+            price_f, etc_f,
+            rec_cnt
+        ],
         outputs=[rec_cnt_out, rec_html]
     )
 
+    # “lens” 카테고리 선택 시 etc_f 토글
     section_f.change(toggle_etc_slider, inputs=[section_f, category_f], outputs=etc_f)
     category_f.change(toggle_etc_slider, inputs=[section_f, category_f], outputs=etc_f)
 
-
-    section_f.change(update_filters_dynamic,
-    inputs=[section_f, category_f, type_f, brand_f, series_f],
-    outputs=[category_f, type_f, brand_f, series_f])
-
-    category_f.change(update_filters_dynamic,
+    # 필터 의존성 자동 업데이트
+    section_f.change(
+        update_filters_dynamic,
         inputs=[section_f, category_f, type_f, brand_f, series_f],
-        outputs=[category_f, type_f, brand_f, series_f])
-
-    type_f.change(update_filters_dynamic,
+        outputs=[category_f, type_f, brand_f, series_f]
+    )
+    category_f.change(
+        update_filters_dynamic,
         inputs=[section_f, category_f, type_f, brand_f, series_f],
-        outputs=[category_f, type_f, brand_f, series_f])
-
-    brand_f.change(update_filters_dynamic,
+        outputs=[category_f, type_f, brand_f, series_f]
+    )
+    type_f.change(
+        update_filters_dynamic,
         inputs=[section_f, category_f, type_f, brand_f, series_f],
-        outputs=[category_f, type_f, brand_f, series_f])
-
-    series_f.change(update_filters_dynamic,
+        outputs=[category_f, type_f, brand_f, series_f]
+    )
+    brand_f.change(
+        update_filters_dynamic,
         inputs=[section_f, category_f, type_f, brand_f, series_f],
-        outputs=[category_f, type_f, brand_f, series_f])
+        outputs=[category_f, type_f, brand_f, series_f]
+    )
+    series_f.change(
+        update_filters_dynamic,
+        inputs=[section_f, category_f, type_f, brand_f, series_f],
+        outputs=[category_f, type_f, brand_f, series_f]
+    )
 
-
-
-
-
+    # “필터 및 결과 리셋” 콜백
     btn_reset.click(
-    reset_filters_and_results,
-    inputs=None,
-    outputs=[
-        section_f, category_f, etc_f,     # 렌즈 직경 위치를 3번째로 이동
-        brand_f, type_f, series_f,
-        name_f, price_f,
-        hex_in, rec_html
-    ]
-)
-
+        reset_filters_and_results,
+        inputs=None,
+        outputs=[
+            section_f, category_f, etc_f,
+            brand_f, type_f, series_f,
+            name_f, price_f,
+            hex_in, rec_html
+        ]
+    )
 
 if __name__ == "__main__":
     demo.launch(server_name="127.0.0.1", server_port=7861, debug=True)
