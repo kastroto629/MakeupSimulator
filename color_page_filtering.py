@@ -135,21 +135,22 @@ def reset_filters_and_results():
     return (
         [],                # section_f
         [],                # category_f
+        [],                # etc_f (렌즈 직경)
         [],                # brand_f
         [],                # type_f
         [],                # series_f
-        "",                # name_f (product name contains)
+        "",                # name_f
         (MIN_PRICE, MAX_PRICE),  # price_f
-        (MIN_ETC, MAX_ETC),      # etc_f
         "#000000",         # hex_in
         "",                # rec_html
     )
+
 
 # ─── 4) Cosine 유사도 추천 (etc 포함한 필터링) ──────────────────
 def recommend_with_filters(
     hex_code,
     sections, categories, brands, types,
-    series, name_filter, price_range, etc_range, top_n=5
+    series, name_filter, price_range, etc_choices, top_n=5
 ):
     # 1) HEX 유효성 검사
     if not (hex_code and hex_code.startswith("#") and len(hex_code) == 7):
@@ -167,47 +168,38 @@ def recommend_with_filters(
     else:
         return "가격 범위가 유효하지 않습니다", ""
 
-    # 3) Etc(렌즈 직경) 범위 처리
-    if isinstance(etc_range, (list, tuple)) and len(etc_range) == 2:
-        emin, emax = etc_range
-    elif isinstance(etc_range, (int, float)):
-        emin, emax = MIN_ETC, float(etc_range)
+    # 3) 렌즈 직경 체크박스 처리
+    if etc_choices:
+        etc_choices = set(etc_choices)
     else:
-        return "직경 범위가 유효하지 않습니다", ""
+        etc_choices = set()
 
     # 4) 필터링 인덱스 계산
     idxs = []
     for i, rec in enumerate(cosmetic_records):
         _, sec, cat, typ, br, ser, nm, _, pr, etc_val = rec
 
-        # section 필터
         if sections and sec not in sections:
             continue
-        # category 필터
         if categories and cat not in categories:
             continue
-        # type 필터
         if types and typ not in types:
             continue
-        # brand 필터
         if brands and br not in brands:
             continue
-        # series 필터
         if series and ser not in series:
             continue
-        # product name contains
-        if name_filter:
-            if name_filter.lower() not in nm.lower():
-                continue
-        # price 범위 필터
+        if name_filter and name_filter.lower() not in nm.lower():
+            continue
         if not (pmin <= pr <= pmax):
             continue
 
-        # etc(렌즈 직경) 필터:
-        #   * etc_val이 None(렌즈가 아닌)인 경우는 무조건 통과
-        #   * etc_val이 존재할 경우 emin ≤ etc_val ≤ emax 이어야 함
-        if etc_val is not None:
-            if not (emin <= etc_val <= emax):
+        # etc 필터링: 사용자가 etc 필터를 선택한 경우만 필터링
+        if etc_choices:
+            if etc_val is not None:
+                if str(round(etc_val, 1)) not in etc_choices:
+                    continue
+            else:
                 continue
 
         idxs.append(i)
@@ -228,7 +220,6 @@ def recommend_with_filters(
         rec = cosmetic_records[idxs[rank]]
         _, sec, cat, typ, br, ser, nm, hc, pr, etc_val = rec
         sw = get_html_swatch(hc)
-        # 렌즈 직경 표시(etc_val) 추가
         etc_display = f"{etc_val:.1f}mm" if etc_val is not None else ""
         html += (
             f"<li style='margin-bottom:8px;'>"
@@ -240,6 +231,7 @@ def recommend_with_filters(
         )
     html += "</ul>"
     return f"{len(top_idxs)}개 추천", html
+
 
 # ─── 5) MediaPipe FaceMesh 세팅 ───────────────────────────────────
 mpfm = mp.solutions.face_mesh
@@ -387,7 +379,16 @@ def update_filters_dynamic(sections, categories, types, brands, series):
 
 
 def toggle_etc_slider(sections, categories):
-    return gr.Slider.update(visible=('eye' in sections and 'lens' in categories))
+    visible = 'lens' in [c.lower() for c in categories]
+    if visible:
+        choices = sorted({
+            f"{float(r[9]):.1f}"
+            for r in cosmetic_records
+            if r[2].strip().lower() == "lens" and r[9] is not None and str(r[9]).replace('.', '', 1).isdigit()
+        })
+        return gr.CheckboxGroup.update(visible=True, choices=choices, value=[])
+    else:
+        return gr.CheckboxGroup.update(visible=False, value=[])
 
 def preview_hex_color(hex_code):
     if isinstance(hex_code, str) and hex_code.startswith("#") and len(hex_code) == 7:
@@ -414,17 +415,22 @@ with gr.Blocks() as demo:
 
     with gr.Accordion("🔍 추천 필터 설정", open=False):
         section_f  = gr.CheckboxGroup(choices=ALL_SECTIONS,   label="Section")
-        etc_f = gr.Slider(
-            minimum=MIN_ETC,
-            maximum=MAX_ETC,
-            value=(MIN_ETC, MAX_ETC),
-            step=0.1,
+        category_f = gr.CheckboxGroup(choices=ALL_CATEGORIES, label="Category")
+
+        #동적 할당
+        ETC_CHOICES = sorted({
+            f"{float(r[9]):.1f}"
+            for r in cosmetic_records
+            if r[2].strip().lower() == "lens" and r[9] is not None and str(r[9]).replace('.', '', 1).isdigit()
+        })
+
+        ETC_CHOICES_STR = [str(val) for val in ETC_CHOICES]
+        etc_f = gr.CheckboxGroup(
+            choices=ETC_CHOICES,
             label="Lens Diameter (etc, mm)",
             interactive=True,
-            type="range",
-            visible=False  # 기본값 숨기기 -> 사용자가 렌즈에 대해 필터링 원할 경우 visible하기 위함
+            visible=False #반응형, lens=category일때 visible하기 위함
         )
-        category_f = gr.CheckboxGroup(choices=ALL_CATEGORIES, label="Category")
         brand_f    = gr.CheckboxGroup(choices=ALL_BRANDS,     label="Brand")
         type_f     = gr.CheckboxGroup(choices=ALL_TYPES,      label="Type")
         series_f   = gr.CheckboxGroup(choices=ALL_SERIES,     label="Product Series")
@@ -502,15 +508,16 @@ with gr.Blocks() as demo:
 
 
     btn_reset.click(
-        reset_filters_and_results,
-        inputs=None,
-        outputs=[
-            section_f, category_f, brand_f, type_f,
-            series_f, name_f,
-            price_f, etc_f,
-            hex_in, rec_html
-        ]
-    )
+    reset_filters_and_results,
+    inputs=None,
+    outputs=[
+        section_f, category_f, etc_f,     # 렌즈 직경 위치를 3번째로 이동
+        brand_f, type_f, series_f,
+        name_f, price_f,
+        hex_in, rec_html
+    ]
+)
+
 
 if __name__ == "__main__":
     demo.launch(server_name="127.0.0.1", server_port=7861, debug=True)
