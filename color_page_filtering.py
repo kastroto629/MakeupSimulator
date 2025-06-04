@@ -401,7 +401,7 @@ with gr.Blocks() as demo:
     with gr.Row():
         with gr.Column():
             inp = gr.Image(type="numpy", label="이미지 업로드")
-            size_tb = gr.Textbox(label="이미지 크기")
+            # size_tb = gr.Textbox(label="이미지 크기")
             with gr.Row():
                 gr.Markdown("**입술**");   lip_hex,  lip_sw   = gr.Textbox(), gr.HTML()
                 gr.Markdown("**홍채**");   iris_hex, iris_sw = gr.Textbox(), gr.HTML()
@@ -414,6 +414,16 @@ with gr.Blocks() as demo:
 
     with gr.Accordion("🔍 추천 필터 설정", open=False):
         section_f  = gr.CheckboxGroup(choices=ALL_SECTIONS,   label="Section")
+        etc_f = gr.Slider(
+            minimum=MIN_ETC,
+            maximum=MAX_ETC,
+            value=(MIN_ETC, MAX_ETC),
+            step=0.1,
+            label="Lens Diameter (etc, mm)",
+            interactive=True,
+            type="range",
+            visible=False  # 기본값 숨기기 -> 사용자가 렌즈에 대해 필터링 원할 경우 visible하기 위함
+        )
         category_f = gr.CheckboxGroup(choices=ALL_CATEGORIES, label="Category")
         brand_f    = gr.CheckboxGroup(choices=ALL_BRANDS,     label="Brand")
         type_f     = gr.CheckboxGroup(choices=ALL_TYPES,      label="Type")
@@ -428,16 +438,8 @@ with gr.Blocks() as demo:
             interactive=True,
             type="range"
         )
-        etc_f = gr.Slider(
-            minimum=MIN_ETC,
-            maximum=MAX_ETC,
-            value=(MIN_ETC, MAX_ETC),
-            step=0.1,
-            label="Lens Diameter (etc, mm)",
-            interactive=True,
-            type="range",
-            visible=False  # 기본값 숨기기 -> 사용자가 렌즈에 대해 필터링 원할 경우 visible하기 위함
-        )
+        
+
 
 
         btn_reset  = gr.Button("필터 및 결과 리셋")
@@ -456,8 +458,6 @@ with gr.Blocks() as demo:
     # 이벤트 연결
     inp.change(extract_face_colors, inputs=inp,
                outputs=[lip_hex, lip_sw, iris_hex, iris_sw, brow_hex, brow_sw])
-    inp.change(lambda img: f"{img.shape[1]}×{img.shape[0]}" if img is not None else "",
-               inputs=inp, outputs=size_tb)
     btn_manual.click(manual_spoid, inputs=[inp, x_tb, y_tb],
                      outputs=[out_hex_m, out_sw_m, out_stat, out_img])
     lip_hex.change(lambda h: str(h) if h.startswith("#") else "#000000",
